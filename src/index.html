@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <script src="https://kit.fontawesome.com/338e80ce1c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+
+    <script id="results-template" type="text/x-handlebars-template">
+    <div class="race-results">
+      <table class="race-table">
+        <tbody class="race-tbody">
+          <tr class="header-row"><th>{{name}}</th><th>Votes</th><th>%</th></tr>
+          {{#each (limit candidates 5)}}
+          <tr class="candidate-row {{#if winner}}winner{{/if}} {{#if advancesToRunoff}}runoff{{/if}}">
+            <td>{{#if party}}({{partyAbrev party}}){{/if}} {{firstName}} {{lastName}} 
+              {{#if winner}}<i class="fas fa-check-square badge badge--winner"></i>{{/if}}
+              {{#if advancesToRunoff}}<i class="badge badge--runoff">Runoff</i>{{/if}}
+            </td>
+            <td>{{formatNumber votes}}</td>
+            <td>{{formatPercent votePercent}}%</td>
+          </tr> 
+          {{/each}}
+        </tbody>
+      </table>
+      <p class="race-metadata"> <span class="precinctsRep">{{formatNumber precinctsReporting}}</span> of <span class="precinctsTot">{{formatNumber precinctsTotal}}</span> precincts reporting. Last updated <span class="updateDate">{{formatDateTime reportedTime}}</span>.</p>
+    </div>
+    </script>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+
+    <div id="embed__container">
+      <div class="embed__chatter">
+      </div>
+      <div class="embed__content" id="results">       
+      </div>
+      <p class="refer-line">For full coverage of the <span id="election-name"></span>, click <a id="election-link" href="">here.</a> 
+    </div>
+
+    <script src="js/scripts.js"></script>
+    <script src="https://interactives.dallasnews.com/common/scripts/embed-tracker/embed-tracker.min.js"></script>
+  </body>
+</html>
