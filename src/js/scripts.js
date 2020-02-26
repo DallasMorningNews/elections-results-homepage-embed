@@ -7,13 +7,9 @@ import joinData from './join-race-data';
 
 const pymChild = new pym.Child();
 
-const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-test-0219/2020-03-03';
-const displayedRaces = ['4f39e027', '3f816448', '8724915e'];
-const electionName = '2020 Super Tuesday primaries';
-const electionLink = 'https://interactives.dallasnews.com/2020/super-tuesday-2020-elections';
-
-document.getElementById('election-name').innerText = electionName;
-document.getElementById('election-link').setAttribute('href', electionLink);
+const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-test-0226/2020-03-03';
+const displayedParties = ['D', 'D', 'R'];
+const displayedRaces = ['49be7dce', 'b66bcf5f', 'd24eb484'];
 
 const racesURL = `${baseURL}/races.json`;
 const candidatesURL = `${baseURL}/candidates.json`;
@@ -40,6 +36,21 @@ Handlebars.registerHelper('limit', (arr, limit) => {
 });
 
 Handlebars.registerHelper('formatDateTime', (dt => moment(dt).format('hh:mm a, MMM D, YYYY')));
+
+function determineRunoff(race, candidates, candidateID) {
+  // check to see if there's a majority winner, if there is, we won't mark a runoff
+  const majWinner = candidates.filter(can => can.votePercent >= 0.5001);
+
+  // takes in a list of candidates ordered by vote totals, and a candidateID, and returns true
+  // if that candidate is in the top two in vote totals race wide
+  const candidateIndex = candidates.findIndex(candidate => candidate.id === candidateID);
+  if (candidateIndex <= 1 && 
+      race.eligibleForRunoff === true && 
+      race.precinctsReportingPct === 1 && 
+      majWinner.length === 0) {
+    return true;
+  } return false;
+}
 
 // compiling our handlebars templates
 const source = document.getElementById('results-template').innerHTML;
@@ -68,8 +79,20 @@ Promise.all([races, candidates]).then((responses) => {
     .then((initialResults) => {
       results = initialResults;
       // fill in the race name
+      displayedRaces.reverse();
+      displayedRaces.forEach((raceID) => {
+        const i = results.findIndex(race => race.id === raceID);
+        const reorderedRace = results.splice(i, 1)[0];
+        results.splice(0, 0, reorderedRace);
+      });
 
-      results.forEach((race) => {
+      results.forEach((race, i) => {
+        if (displayedParties && displayedParties.length > 0) {
+          race.party = displayedParties[i];
+        } 
+        race.candidates.forEach((candidate) => {
+          candidate.advancesToRunoff = determineRunoff(race, race.candidates, candidate.id);
+        });
         const html = template(race);
         document.getElementById('results').innerHTML += html;
       });
@@ -84,13 +107,16 @@ Promise.all([races, candidates]).then((responses) => {
 
           document.getElementById('results').innerHTML = '';
           results.forEach((race) => {
+            race.candidates.forEach((candidate) => {
+              candidate.advancesToRunoff = determineRunoff(race, race.candidates, candidate.id);
+            });
             const html = template(race);
             document.getElementById('results').innerHTML += html;
           });
 
           pymChild.sendHeight();
         });
-      }, 180000);
+      }, 3000);
     });
 });
 

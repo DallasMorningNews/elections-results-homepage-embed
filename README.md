@@ -18,6 +18,7 @@ This is a generic elections results embed for the dallasnews homepage that can b
 To use this properly, there are four variables you'll need to change in the `scripts.js` file. 
 
 - `baseURL` = the directory in S3 where the election metadata and results are published
+- `displayedParties` = for primary elections, set an array with the corresponding parties in the same order as their races in `displayedRaces`. For non-primary elections, you can comment out this line or delete the contents of the array.
 - `displayedRaces` = an array of race UUIDs you want to show. Race UUIDs can be found under on the `edit races` page of the election at our [Elections Admin page](elections-admin.dallasnews.com).
 - `electionName` = the name of the election. This is used in the refer line to full election coverage at the bottom of the embed
 - `electionURL` = the url of the elections results and liveblog interactive. Also used in the refer line.
