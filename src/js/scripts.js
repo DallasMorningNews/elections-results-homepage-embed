@@ -7,9 +7,9 @@ import joinData from './join-race-data';
 
 const pymChild = new pym.Child();
 
-const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-test-0226/2020-03-03';
+const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-test-0227/2020-03-03';
 const displayedParties = ['D', 'D', 'R'];
-const displayedRaces = ['49be7dce', 'b66bcf5f', 'd24eb484'];
+const displayedRaces = ['51c9f158', '63f147ad', 'c19fee2e'];
 
 const racesURL = `${baseURL}/races.json`;
 const candidatesURL = `${baseURL}/candidates.json`;
@@ -116,7 +116,7 @@ Promise.all([races, candidates]).then((responses) => {
 
           pymChild.sendHeight();
         });
-      }, 3000);
+      }, 300000);
     });
 });
 
