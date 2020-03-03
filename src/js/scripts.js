@@ -77,7 +77,6 @@ const candidates = fetch(candidatesURL)
 Promise.all([races, candidates]).then((responses) => {
   const [raceList, candidateList] = responses;
 
-  console.log(raceList);
   // ... join those two data files together ... 
   joinData(baseURL, raceList, candidateList)
     .then(compiledData => getResults(compiledData)) // ... then get the results for that compiled data
