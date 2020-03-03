@@ -7,9 +7,9 @@ import joinData from './join-race-data';
 
 const pymChild = new pym.Child();
 
-const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-test-0227/2020-03-03';
+const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-live/2020-03-03';
 const displayedParties = ['D', 'D', 'R'];
-const displayedRaces = ['51c9f158', '63f147ad', 'c19fee2e'];
+const displayedRaces = ['8dd3929f', '4d22c8c9', '9af82796'];
 
 const racesURL = `${baseURL}/races.json`;
 const candidatesURL = `${baseURL}/candidates.json`;
@@ -23,7 +23,11 @@ Handlebars.registerHelper('formatNumber', (n) => {
 });
 
 // formats vote percentages into readable style (i.e. .923 -> 92.3)
-Handlebars.registerHelper('formatPercent', n => (n * 100).toFixed(1));
+Handlebars.registerHelper('formatPercent', (n) => {
+  if (n === null) {
+    return 0;
+  } return (n * 100).toFixed(1);
+});
 
 // formats party name down to first letter
 Handlebars.registerHelper('partyAbrev', n => n.charAt(0));
@@ -73,6 +77,7 @@ const candidates = fetch(candidatesURL)
 Promise.all([races, candidates]).then((responses) => {
   const [raceList, candidateList] = responses;
 
+  console.log(raceList);
   // ... join those two data files together ... 
   joinData(baseURL, raceList, candidateList)
     .then(compiledData => getResults(compiledData)) // ... then get the results for that compiled data
