@@ -26,7 +26,10 @@ Handlebars.registerHelper('formatNumber', (n) => {
 Handlebars.registerHelper('formatPercent', (n) => {
   if (n === null) {
     return 0;
-  } return (n * 100).toFixed(1);
+  }
+  if (n === 1) {
+    return 100;
+  } return (n * 100).toFixed(2);
 });
 
 // formats party name down to first letter
