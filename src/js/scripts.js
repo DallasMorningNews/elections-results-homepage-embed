@@ -7,9 +7,9 @@ import joinData from './join-race-data';
 
 const pymChild = new pym.Child();
 
-const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/super-tuesday-2020-live/2020-03-03';
-const displayedParties = ['D', 'D', 'R'];
-const displayedRaces = ['8dd3929f', '4d22c8c9', '9af82796'];
+const baseURL = 'https://s3.amazonaws.com/elections.dallasnews.com/2020-july-primary-runoff-live/2020-07-14';
+const displayedParties = ['D', 'D', 'D'];
+const displayedRaces = ['4769e8e0', 'da51ab6d', 'adba07de'];
 
 const racesURL = `${baseURL}/races.json`;
 const candidatesURL = `${baseURL}/candidates.json`;

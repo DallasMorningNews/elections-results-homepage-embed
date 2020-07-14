@@ -13,9 +13,9 @@ This is a generic elections results embed for the dallasnews homepage that can b
 - In the `scripts.js` file, change the `baseURL` variable to reflect the bucket the current election's results will live in on S3.
 - You should also populate the `aws.json` file with your aws credentials. 
 
-#### Specifying races, and elections.
+#### Specifying races and elections.
 
-To use this properly, there are four variables you'll need to change in the `scripts.js` file. 
+To use this properly, there are four variables you'll need to change in the `scripts.js` file.
 
 - `baseURL` = the directory in S3 where the election metadata and results are published
 - `displayedParties` = for primary elections, set an array with the corresponding parties in the same order as their races in `displayedRaces`. For non-primary elections, you can comment out this line or delete the contents of the array.
@@ -25,7 +25,7 @@ To use this properly, there are four variables you'll need to change in the `scr
 
 #### Publishing in arc
 
-TK. Waiting on the product team.
+Supply the embed url (https://interactives.dallasnews.com/embeds/<<meta.json['name']>>) to the audience team. 
 
 # Base interactive embed info
 
