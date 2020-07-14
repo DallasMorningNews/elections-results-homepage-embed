@@ -25,7 +25,7 @@ To use this properly, there are four variables you'll need to change in the `scr
 
 #### Publishing in arc
 
-Supply the embed url (https://interactives.dallasnews.com/embeds/<<meta.json['name']>>) to the audience team. 
+Supply the embed url (https://interactives.dallasnews.com/embeds/<<meta.json['year']/<<meta.json['name']>>) to the audience team. 
 
 # Base interactive embed info
 
